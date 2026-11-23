@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sign In | Quest AI Learning Platform{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+  <div class="auth-card">
+    
+    <!-- Designer Quest Icon & Title -->
+    <div class="auth-header">
+      <div style="display: flex; justify-content: center; margin-bottom: 1.25rem;">
+        <div class="quest-logo-badge" style="width: 58px; height: 58px;">
+          <svg class="quest-logo-icon" style="width: 34px; height: 34px;" viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 20 7 20 17 12 22 4 17 4 7" stroke="url(#logoGradient)"/>
+            <circle cx="12" cy="12" r="3.5" fill="url(#logoGradient)" stroke="none"/>
+            <path d="M14.5 14.5 L19 19" stroke="url(#logoGradient)" stroke-width="2.5"/>
+          </svg>
+        </div>
+      </div>
+      <h2 class="auth-title">Access Terminal</h2>
+      <p class="auth-subtitle">Sign in to resume your 30-level C & Java learning journey</p>
+    </div>
+
+    <!-- Login Form -->
+    <form method="POST" novalidate>
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label class="form-label" for="id_username">
+          <i class="fa-solid fa-terminal" style="color: var(--accent-cyan); margin-right: 4px;"></i> Username or Email
+        </label>
+        {{ form.username }}
+        {% if form.username.errors %}
+          <div class="form-errors">{{ form.username.errors.0 }}</div>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.45rem;">
+          <label class="form-label" for="id_password" style="margin-bottom: 0;">
+            <i class="fa-solid fa-lock" style="color: var(--accent-purple); margin-right: 4px;"></i> Password
+          </label>
+        </div>
+        {{ form.password }}
+        {% if form.password.errors %}
+          <div class="form-errors">{{ form.password.errors.0 }}</div>
+        {% endif %}
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.9rem; margin-top: 1rem; font-size: 1.05rem;">
+        <i class="fa-solid fa-right-to-bracket"></i> Initialize Session
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      New developer to the matrix? 
+      <a href="{% url 'register' %}">Register here</a>
+    </div>
+
+    <!-- Developer Feature Badges below card -->
+    <div style="display: flex; justify-content: space-around; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-subtle); font-size: 0.78rem; color: var(--text-dim); font-family: var(--font-mono);">
+      <span><i class="fa-solid fa-shield-halved" style="color: var(--accent-cyan);"></i> SSL Secured</span>
+      <span><i class="fa-solid fa-robot" style="color: var(--accent-purple);"></i> AI Tutor Active</span>
+      <span><i class="fa-solid fa-gamepad" style="color: var(--accent-amber);"></i> 30-Level Track</span>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

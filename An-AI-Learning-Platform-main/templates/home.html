@@ -1,0 +1,337 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home | Quest AI Learning Matrix{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <!-- ===================================================================
+       HERO SECTION
+       =================================================================== -->
+  <section class="hero-section">
+    <div class="hero-pill-badge">
+      <i class="fa-solid fa-microchip"></i>
+      <span>AI-POWERED CODE MATRIX &bull; 30-LEVEL STEP-BY-STEP ROADMAPS</span>
+    </div>
+
+    <h1 class="hero-title">
+      Conquer Programming Through <br>
+      <span class="gradient-text">Gamified AI Quests</span>
+    </h1>
+
+    <p class="hero-description">
+      Step into Quest, the next-generation developer learning platform. Master the foundational low-level power of <strong>C</strong> and the enterprise architectural dominance of <strong>Java</strong> through 30 easy, hands-on levels with 7 real mini projects each, voice lessons and an AI helper.
+    </p>
+
+    <div class="hero-cta-group">
+      <a href="#courses" class="btn btn-primary" style="padding: 0.95rem 2rem; font-size: 1.05rem;">
+        <i class="fa-solid fa-gamepad"></i> Explore Courses ➔
+      </a>
+      <a href="#about" class="btn btn-outline" style="padding: 0.95rem 1.8rem; font-size: 1.05rem;">
+        <i class="fa-solid fa-circle-question"></i> Discover Pedagogy
+      </a>
+    </div>
+
+    <!-- Live Developer Terminal Window Preview -->
+    <div class="terminal-window">
+      <div class="terminal-header">
+        <div class="terminal-dots">
+          <span class="terminal-dot dot-red"></span>
+          <span class="terminal-dot dot-yellow"></span>
+          <span class="terminal-dot dot-green"></span>
+        </div>
+        <span class="terminal-title">quest-bash ~ v2.4.0 (Active Session)</span>
+        <span style="font-size: 0.75rem; color: var(--accent-cyan); font-family: var(--font-mono);">● RUNNING</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="term-cmd">$</span> <span style="color:#ffffff;">quest-engine --init-user --username="{{ user.username }}"</span></div>
+        <div class="term-output">> Authenticated Developer: {{ user.username }} [Current Rank: {{ user_rank_title }}]</div>
+        <div class="term-output">> Total Accumulated XP: {{ user_profile.xp }} XP | Coding Streak: {{ user_profile.streak }} Days</div>
+        <div><span class="term-cmd">$</span> <span style="color:#ffffff;">quest-modules --check-tracks</span></div>
+        <div class="term-output">> [TRACK 01]: C Programming &mdash; 30 Levels Loaded (Basics, Loops, Functions, Pointers, 7 Projects)</div>
+        <div class="term-output">> [TRACK 02]: Java Programming &mdash; 30 Levels Loaded (Basics, Loops, OOP, Collections, 7 Projects)</div>
+        <div class="term-output">> [TRACK 03]: Python Programming &mdash; Status: [UPCOMING / IN CURRICULUM LABS]</div>
+        <div class="term-success">> All AI Tutoring and Gamification Subsystems Ready.<span class="term-cursor"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       ABOUT SECTION
+       =================================================================== -->
+  <section id="about" class="section-wrapper">
+    <div class="section-header">
+      <span class="section-badge">About Quest Platform</span>
+      <h2 class="section-title">A Revolutionary Way to Learn Code</h2>
+      <p class="section-subtitle">
+        We replace static video lectures and endless PDF documentation with an active, gamified RPG-style learning progression.
+      </p>
+    </div>
+
+    <!-- 4 Value Pillar Cards -->
+    <div class="about-grid">
+      <div class="about-card">
+        <div class="about-icon-box">
+          <i class="fa-solid fa-stairs"></i>
+        </div>
+        <h3 class="about-card-title">30 Easy Levels</h3>
+        <p class="about-card-desc">
+          Learning to program is an incremental craft. Each course has 30 small levels written in simple words. Level 1 starts from zero, and you build real mini projects along the way, like a calculator, a report card, an ATM and a to-do list.
+        </p>
+      </div>
+
+      <div class="about-card">
+        <div class="about-icon-box" style="color: var(--accent-purple); border-color: rgba(168,85,247,0.3); background: rgba(168,85,247,0.1);">
+          <i class="fa-solid fa-lock-open"></i>
+        </div>
+        <h3 class="about-card-title">Progression Unlocking</h3>
+        <p class="about-card-desc">
+          No rushing ahead without understanding core foundations! Completing each level's theory, sandbox challenge, and knowledge quiz automatically unlocks the next level on your quest pathway.
+        </p>
+      </div>
+
+      <div class="about-card">
+        <div class="about-icon-box" style="color: var(--accent-amber); border-color: rgba(245,158,11,0.3); background: rgba(245,158,11,0.1);">
+          <i class="fa-solid fa-brain"></i>
+        </div>
+        <h3 class="about-card-title">Integrated AI Mentor</h3>
+        <p class="about-card-desc">
+          Stuck on a tricky segmentation fault or Java interface hierarchy? The embedded Quest AI Assistant diagnoses errors, gives contextual hints, and explains hard concepts with clear mental models.
+        </p>
+      </div>
+
+      <div class="about-card">
+        <div class="about-icon-box" style="color: var(--accent-emerald); border-color: rgba(16,185,129,0.3); background: rgba(16,185,129,0.1);">
+          <i class="fa-solid fa-code"></i>
+        </div>
+        <h3 class="about-card-title">Zero Setup Sandbox</h3>
+        <p class="about-card-desc">
+          Don't waste hours configuring GCC compilers or JDK environment variables. Write and verify your code in real time in our interactive browser terminal environment with instant test validation.
+        </p>
+      </div>
+    </div>
+
+    <!-- In-Depth Platform Narrative -->
+    <div class="about-narrative-box">
+      <div>
+        <h3 class="narrative-title">Mastering Both Silicon and Software Architecture</h3>
+        <p class="narrative-p">
+          Most modern developers either learn high-level scripting without ever understanding memory, or get bogged down in arcane low-level syntax without learning scalable architecture.
+        </p>
+        <p class="narrative-p">
+          Quest bridges this divide. By teaching <strong>C</strong>, you develop an intimate understanding of memory addresses, pointer dereferencing, cache lines, and heap management. By teaching <strong>Java</strong>, you master robust Object-Oriented design, the JVM, enterprise collections, and concurrent multithreading.
+        </p>
+        <div class="narrative-pills">
+          <span class="feature-pill"><i class="fa-solid fa-check"></i> C Memory Pointers</span>
+          <span class="feature-pill"><i class="fa-solid fa-check"></i> Java JVM & OOP</span>
+          <span class="feature-pill"><i class="fa-solid fa-check"></i> 30 Easy Modules</span>
+          <span class="feature-pill"><i class="fa-solid fa-check"></i> AI Error Diagnosis</span>
+          <span class="feature-pill"><i class="fa-solid fa-check"></i> XP & Tier Badges</span>
+        </div>
+      </div>
+
+      <div style="background: rgba(8, 12, 22, 0.85); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 1.75rem;">
+        <h4 style="font-family: var(--font-heading); font-size: 1.2rem; color: #ffffff; margin-bottom: 1.25rem;">
+          <i class="fa-solid fa-trophy" style="color: var(--accent-amber); margin-right: 6px;"></i> The Quest Mastery Tier System
+        </h4>
+        <div style="display: flex; flex-direction: column; gap: 0.85rem; font-family: var(--font-mono); font-size: 0.88rem;">
+          <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: rgba(255,255,255,0.03); border-radius: 6px;">
+            <span style="color: var(--text-dim);">Tier 1-2</span>
+            <span style="color: var(--accent-cyan); font-weight: 600;">Byte Novice (0 - 400 XP)</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: rgba(255,255,255,0.03); border-radius: 6px;">
+            <span style="color: var(--text-dim);">Tier 3-5</span>
+            <span style="color: var(--accent-blue); font-weight: 600;">Syntax Scout (400 - 1000 XP)</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: rgba(255,255,255,0.03); border-radius: 6px;">
+            <span style="color: var(--text-dim);">Tier 6-9</span>
+            <span style="color: var(--accent-purple); font-weight: 600;">Logic Warrior (1000 - 1800 XP)</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: rgba(255,255,255,0.03); border-radius: 6px;">
+            <span style="color: var(--text-dim);">Tier 10-14</span>
+            <span style="color: var(--accent-amber); font-weight: 600;">Algorithm Sorcerer (1800 - 2800 XP)</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: rgba(255,255,255,0.03); border-radius: 6px;">
+            <span style="color: var(--text-dim);">Tier 15+</span>
+            <span style="color: var(--accent-emerald); font-weight: 700;">Grandmaster Architect (2800+ XP)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       COURSES SECTION
+       =================================================================== -->
+  <section id="courses" class="section-wrapper">
+    <div class="section-header">
+      <span class="section-badge" style="background: rgba(0, 242, 254, 0.12); color: var(--accent-cyan); border-color: rgba(0, 242, 254, 0.3);">
+        Curriculum Roadmap
+      </span>
+      <h2 class="section-title">Programming Tracks</h2>
+      <p class="section-subtitle">
+        Currently covering 3 core tracks: C Systems Programming, Java Enterprise Architecture, and our upcoming Python AI track.
+      </p>
+    </div>
+
+    <!-- 3 Course Cards -->
+    <div class="courses-grid">
+
+      <!-- Course 1: C Programming (Available) -->
+      <div class="course-card card-c">
+        <div>
+          <div class="course-top-meta">
+            <span class="course-badge-status badge-available">
+              <i class="fa-solid fa-circle-check"></i> Available  30 Levels
+            </span>
+            <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-cyan);">
+              Track 01
+            </span>
+          </div>
+
+          <div class="course-icon-holder icon-holder-c">
+            <i class="fa-solid fa-terminal"></i>
+          </div>
+
+          <h3 class="course-title">C Programming</h3>
+          <p class="course-tagline">Low-Level Memory & Systems Mastery</p>
+          <p class="course-desc">
+            Known as the mother of all modern software. Master pointers, stack frames, heap allocation, bitwise logic, and build custom data structures from scratch.
+          </p>
+
+          <ul class="course-specs-list">
+            <li class="course-specs-item"><i class="fa-solid fa-bolt"></i> 30 Levels + 7 Mini Projects</li>
+            <li class="course-specs-item"><i class="fa-solid fa-memory"></i> Direct Memory Pointers & Dynamic Allocations</li>
+            <li class="course-specs-item"><i class="fa-solid fa-microchip"></i> Bitwise Ops, Structs, Unions & Header Files</li>
+            <li class="course-specs-item"><i class="fa-solid fa-trophy"></i> Capstone: In-Memory Key-Value Store</li>
+          </ul>
+        </div>
+
+        <div>
+          {% for card in course_cards %}
+            {% if card.course.slug == 'c' %}
+              <div class="course-progress-bar-wrap">
+                <div class="progress-label-flex">
+                  <span>Progress</span>
+                  <span>{{ card.stats.completed_count }}/{{ card.stats.total_levels }} Levels ({{ card.stats.percentage }}%)</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width: {{ card.stats.percentage }}%"></div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+
+          <!-- "Let's start" Button -->
+          <a href="{% url 'course_quest_map' 'c' %}" class="btn btn-start-quest">
+            <i class="fa-solid fa-play"></i> Let's start
+          </a>
+        </div>
+      </div>
+
+      <!-- Course 2: Java Programming (Available) -->
+      <div class="course-card card-java">
+        <div>
+          <div class="course-top-meta">
+            <span class="course-badge-status badge-available">
+              <i class="fa-solid fa-circle-check"></i> Available  30 Levels
+            </span>
+            <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-amber);">
+              Track 02
+            </span>
+          </div>
+
+          <div class="course-icon-holder icon-holder-java">
+            <i class="fa-brands fa-java"></i>
+          </div>
+
+          <h3 class="course-title">Java Programming</h3>
+          <p class="course-tagline" style="color: var(--accent-amber);">Enterprise Architecture & OOP Powerhouse</p>
+          <p class="course-desc">
+            Powering millions of mission-critical systems and modern enterprise backends. Conquer JVM bytecode, deep OOP inheritance, collections, streams, and threads.
+          </p>
+
+          <ul class="course-specs-list">
+            <li class="course-specs-item"><i class="fa-solid fa-bolt" style="color: var(--accent-amber);"></i> 30 Levels + 7 Mini Projects</li>
+            <li class="course-specs-item"><i class="fa-solid fa-cubes" style="color: var(--accent-amber);"></i> Robust OOP: Polymorphism & Interfaces</li>
+            <li class="course-specs-item"><i class="fa-solid fa-network-wired" style="color: var(--accent-amber);"></i> Collections, Generics, Lambdas & Streams</li>
+            <li class="course-specs-item"><i class="fa-solid fa-trophy" style="color: var(--accent-amber);"></i> Capstone: Multithreaded Event Engine</li>
+          </ul>
+        </div>
+
+        <div>
+          {% for card in course_cards %}
+            {% if card.course.slug == 'java' %}
+              <div class="course-progress-bar-wrap">
+                <div class="progress-label-flex">
+                  <span>Progress</span>
+                  <span>{{ card.stats.completed_count }}/{{ card.stats.total_levels }} Levels ({{ card.stats.percentage }}%)</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width: {{ card.stats.percentage }}%; background: linear-gradient(90deg, #f59e0b, #ec4899);"></div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+
+          <!-- "Let's start" Button -->
+          <a href="{% url 'course_quest_map' 'java' %}" class="btn btn-start-quest" style="background: linear-gradient(135deg, #f59e0b 0%, #ec4899 100%);">
+            <i class="fa-solid fa-play"></i> Let's start
+          </a>
+        </div>
+      </div>
+
+      <!-- Course 3: Python Programming (Upcoming) -->
+      <div class="course-card card-python">
+        <div>
+          <div class="course-top-meta">
+            <span class="course-badge-status badge-upcoming">
+              <i class="fa-solid fa-clock"></i> Upcoming
+            </span>
+            <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-emerald);">
+              Track 03
+            </span>
+          </div>
+
+          <div class="course-icon-holder icon-holder-python">
+            <i class="fa-brands fa-python"></i>
+          </div>
+
+          <h3 class="course-title">Python Programming</h3>
+          <p class="course-tagline" style="color: var(--accent-emerald);">Artificial Intelligence, Data & Automation</p>
+          <p class="course-desc">
+            The undisputed king of Machine Learning, Data Science, and autonomous AI agents. Currently in rapid curriculum development with our senior engineering team.
+          </p>
+
+          <ul class="course-specs-list">
+            <li class="course-specs-item"><i class="fa-solid fa-lock" style="color: var(--text-dim);"></i> Coming soon: AI & Automation modules</li>
+            <li class="course-specs-item"><i class="fa-solid fa-chart-line" style="color: var(--text-dim);"></i> NumPy, Pandas & Data Pipelines</li>
+            <li class="course-specs-item"><i class="fa-solid fa-robot" style="color: var(--text-dim);"></i> PyTorch, Neural Networks & Generative AI</li>
+            <li class="course-specs-item"><i class="fa-solid fa-star" style="color: var(--text-dim);"></i> Status: Curriculum in Engineering Lab</li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="course-progress-bar-wrap" style="opacity: 0.5;">
+            <div class="progress-label-flex">
+              <span>Status</span>
+              <span>Releasing Soon</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 10%; background: #10b981;"></div>
+            </div>
+          </div>
+
+          <!-- Upcoming Button (Marked as Upcoming per user request) -->
+          <button type="button" class="btn btn-upcoming" title="This course will be released in an upcoming update!">
+            <i class="fa-solid fa-clock-rotate-left"></i> Upcoming Track
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+{% endblock %}

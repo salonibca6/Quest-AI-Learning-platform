@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ course.name }} | 30-Level Quest Map{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <!-- ===================================================================
+       QUEST MAP HEADER & PROGRESS SUMMARY
+       =================================================================== -->
+  <div class="quest-map-header">
+    <a href="{% url 'home' %}#courses" class="btn btn-outline" style="padding: 0.45rem 1rem; font-size: 0.85rem; margin-bottom: 1.5rem; display: inline-flex;">
+      <i class="fa-solid fa-arrow-left"></i> Return to Course Hub
+    </a>
+
+    <div class="map-hero-card">
+      <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 0.5rem;">
+        <span style="font-size: 2.2rem; color: {{ course.color_accent }};">
+          {% if course.slug == 'c' %}<i class="fa-solid fa-terminal"></i>{% else %}<i class="fa-brands fa-java"></i>{% endif %}
+        </span>
+        <h1 style="font-family: var(--font-heading); font-size: 2.5rem; font-weight: 800; color: #ffffff;">
+          {{ course.name }} Quest Pathway
+        </h1>
+      </div>
+      <p style="color: var(--text-muted); font-size: 1.05rem; max-width: 680px; margin: 0 auto 1.5rem;">
+        {{ course.tagline }}
+      </p>
+
+      <!-- Overall Track Progress Bar -->
+      <div style="max-width: 550px; margin: 0 auto 1.5rem;">
+        <div class="progress-label-flex">
+          <span>Overall Mastery</span>
+          <span style="color: var(--accent-cyan); font-weight: 700;">{{ completed_count }} of {{ total_count }} Levels Unlocked ({{ completion_percentage }}%)</span>
+        </div>
+        <div class="progress-track" style="height: 9px;">
+          <div class="progress-fill" style="width: {{ completion_percentage }}%; {% if course.slug == 'java' %}background: linear-gradient(90deg, #f59e0b, #ec4899);{% endif %}"></div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: center; gap: 1rem;">
+        <a href="{% url 'level_detail' course.slug next_playable_level %}" class="btn btn-primary" style="padding: 0.8rem 1.8rem;">
+          <i class="fa-solid fa-forward-step"></i> Enter Current Quest (Level {{ next_playable_level }})
+        </a>
+      </div>
+
+      <!-- Stats Bar -->
+      <div class="map-stats-flex">
+        <div class="map-stat-col">
+          <div class="map-stat-num">{{ completed_count }}</div>
+          <div class="map-stat-lbl">Conquered Modules</div>
+        </div>
+        <div class="map-stat-col">
+          <div class="map-stat-num" style="color: var(--accent-amber);">{{ user_profile.xp }}</div>
+          <div class="map-stat-lbl">Accumulated XP</div>
+        </div>
+        <div class="map-stat-col">
+          <div class="map-stat-num" style="color: var(--accent-purple);">Tier {{ user_rank_tier }}</div>
+          <div class="map-stat-lbl">{{ user_rank_title }}</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       LEVEL GRID
+       =================================================================== -->
+  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+    <h2 style="font-family: var(--font-heading); font-size: 1.6rem; font-weight: 700; color: #ffffff;">
+      <i class="fa-solid fa-map-location-dot" style="color: var(--accent-cyan); margin-right: 8px;"></i>
+      {{ total_count }}-Level Learning Map
+    </h2>
+    <div style="display: flex; gap: 1.25rem; font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dim);">
+      <span><span style="color: var(--accent-emerald);">●</span> Completed</span>
+      <span><span style="color: var(--accent-cyan);">●</span> Unlocked</span>
+      <span><span style="color: var(--text-dim);">●</span> Locked</span>
+    </div>
+  </div>
+
+  <div class="levels-grid">
+    {% for item in levels_data %}
+      <div class="level-card {% if item.is_completed %}completed{% elif item.is_unlocked %}unlocked{% else %}locked{% endif %}{% if item.module.is_project %} is-project{% endif %}">
+        
+        <div>
+          <!-- Level Card Header -->
+          <div class="level-card-header">
+            <div class="level-num-badge">
+              {{ item.module.level_number }}
+            </div>
+            
+            {% if item.is_completed %}
+              <span class="level-status-pill status-completed">
+                <i class="fa-solid fa-check-double"></i> Completed
+              </span>
+            {% elif item.is_unlocked %}
+              <span class="level-status-pill status-unlocked">
+                <i class="fa-solid fa-lock-open"></i> Unlocked
+              </span>
+            {% else %}
+              <span class="level-status-pill status-locked">
+                <i class="fa-solid fa-lock"></i> Locked
+              </span>
+            {% endif %}
+          </div>
+
+          <!-- Title & Summary -->
+          {% if item.module.is_project %}<span class="project-badge"><i class="fa-solid fa-hammer"></i> Mini Project</span>{% endif %}
+          <h3 class="level-title">{{ item.module.title }}</h3>
+          <p class="level-summary">{{ item.module.summary }}</p>
+        </div>
+
+        <div>
+          <!-- Level Metadata (Difficulty & XP) -->
+          <div class="level-meta-bottom">
+            <div>
+              <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dim); display: block;">
+                {{ item.module.difficulty }}
+              </span>
+              <span class="level-xp-reward">
+                <i class="fa-solid fa-bolt"></i> +{{ item.module.xp_reward }} XP
+              </span>
+            </div>
+
+            <!-- Action Button -->
+            <div>
+              {% if item.is_unlocked %}
+                {% if item.is_completed %}
+                  <a href="{% url 'level_detail' course.slug item.module.level_number %}" class="btn-level-action btn-review-level">
+                    Review <i class="fa-solid fa-check"></i>
+                  </a>
+                {% else %}
+                  <a href="{% url 'level_detail' course.slug item.module.level_number %}" class="btn-level-action btn-play-level">
+                    Play <i class="fa-solid fa-play" style="font-size: 0.75rem;"></i>
+                  </a>
+                {% endif %}
+              {% else %}
+                <span class="btn-level-action btn-locked-level">
+                  <i class="fa-solid fa-lock"></i> Locked
+                </span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+      </div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}

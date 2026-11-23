@@ -1,0 +1,266 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Quest | AI-Powered Programming Platform{% endblock %}</title>
+  
+  <!-- Modern Typography Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons for developer badges -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Master Stylesheet -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  
+  {% block extra_head %}{% endblock %}
+</head>
+<body {% block body_attrs %}{% endblock %}>
+
+  <!-- SVG Gradient Definitions for Designer Quest Logo -->
+  <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" aria-hidden="true">
+    <defs>
+      <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#00f2fe" />
+        <stop offset="50%" stop-color="#38bdf8" />
+        <stop offset="100%" stop-color="#a855f7" />
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <!-- Interactive Developer Animated Canvas Background (Present on every page) -->
+  <canvas id="developer-canvas"></canvas>
+  <div class="ambient-glow-layer"></div>
+
+  <!-- Master App Wrapper -->
+  <div class="app-content">
+
+    <!-- Professional Modern Navbar -->
+    <header class="navbar-wrapper">
+      <div class="container">
+        <div class="navbar-inner">
+
+          <!-- Left: Designer Quest Logo -->
+          <a href="{% if user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login' %}{% endif %}" class="quest-logo-container">
+            <div class="quest-logo-badge">
+              <svg class="quest-logo-icon" viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <!-- Futuristic Geometric Polygonal Q with glowing crystal center -->
+                <polygon points="12 2 20 7 20 17 12 22 4 17 4 7" stroke="url(#logoGradient)"/>
+                <circle cx="12" cy="12" r="3.5" fill="url(#logoGradient)" stroke="none"/>
+                <path d="M14.5 14.5 L19 19" stroke="url(#logoGradient)" stroke-width="2.5"/>
+              </svg>
+            </div>
+            <div class="quest-brand-text">
+              <span class="quest-brand-title">Quest</span>
+              <span class="quest-brand-sub">AI Learning Matrix</span>
+            </div>
+          </a>
+
+          <!-- Center: Navigation Links (About & Courses) -->
+          <nav class="navbar-nav-center">
+            {% if user.is_authenticated %}
+              <a href="{% url 'home' %}#about" class="nav-link-custom">
+                <i class="fa-solid fa-compass"></i>
+                <span>About</span>
+              </a>
+              <a href="{% url 'home' %}#courses" class="nav-link-custom">
+                <i class="fa-solid fa-layer-group"></i>
+                <span>Courses</span>
+              </a>
+              <a href="{% url 'course_quest_map' 'c' %}" class="nav-link-custom">
+                <i class="fa-solid fa-terminal"></i>
+                <span>C Track</span>
+              </a>
+              <a href="{% url 'course_quest_map' 'java' %}" class="nav-link-custom">
+                <i class="fa-brands fa-java"></i>
+                <span>Java Track</span>
+              </a>
+            {% else %}
+              <a href="{% url 'login' %}#about" class="nav-link-custom">
+                <i class="fa-solid fa-compass"></i>
+                <span>About</span>
+              </a>
+              <a href="{% url 'login' %}#courses" class="nav-link-custom">
+                <i class="fa-solid fa-layer-group"></i>
+                <span>Courses</span>
+              </a>
+            {% endif %}
+          </nav>
+
+          <!-- Right: User State / Auth Actions -->
+          <div class="navbar-nav-right">
+            {% if user.is_authenticated %}
+              <a href="{% url 'profile' %}" class="nav-profile-pill" title="View Quest Profile">
+                <div class="nav-avatar">
+                  {{ user.username|slice:":1"|upper }}
+                </div>
+                <div class="nav-user-info">
+                  <span class="nav-user-name">{{ user.username }}</span>
+                  <span class="nav-user-xp"><i class="fa-solid fa-bolt"></i> {{ user_profile.xp }} XP</span>
+                </div>
+              </a>
+              <a href="{% url 'logout' %}" class="btn-nav-logout" title="Sign Out">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Logout</span>
+              </a>
+            {% else %}
+              <a href="{% url 'login' %}" class="btn btn-outline" style="padding: 0.45rem 1rem; font-size: 0.9rem;">
+                <i class="fa-solid fa-right-to-bracket"></i> Sign In
+              </a>
+              <a href="{% url 'register' %}" class="btn btn-primary" style="padding: 0.45rem 1.1rem; font-size: 0.9rem;">
+                <i class="fa-solid fa-user-plus"></i> Register
+              </a>
+            {% endif %}
+          </div>
+
+        </div>
+      </div>
+    </header>
+
+    <!-- Global Messages Alerts -->
+    {% if messages %}
+      <div class="messages-container">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">
+            <span><i class="fa-solid fa-circle-info"></i> {{ message }}</span>
+            <button type="button" onclick="this.parentElement.remove()" style="background:none;border:none;color:inherit;cursor:pointer;font-size:1.1rem;">&times;</button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- Main View Body -->
+    <main class="main-body">
+      {% block content %}{% endblock %}
+    </main>
+
+    <!-- Classic & Professional Footer -->
+    <footer class="footer-wrapper">
+      <div class="container">
+
+        <!-- "Why Choose Quest" Professional Showcase -->
+        <div class="footer-reasons-block">
+          <h3 class="footer-reasons-title">Why Choose Quest to Learn Programming Languages?</h3>
+          <p class="footer-reasons-sub">Designed from the ground up for aspiring and professional engineers</p>
+
+          <div class="reasons-grid">
+            <div class="reason-card">
+              <div class="reason-num">01 / GAMIFIED MASTERY</div>
+              <h4 class="reason-title">30-Level Progression</h4>
+              <p class="reason-desc">No boring static walls of text. Learn through progressive unlockable levels where each conquered module builds real muscle memory.</p>
+            </div>
+
+            <div class="reason-card">
+              <div class="reason-num">02 / AI COMPANION</div>
+              <h4 class="reason-title">Intelligent AI Mentor</h4>
+              <p class="reason-desc">Get instant contextual code explanations, compiler error diagnosis, and intuitive mental analogies whenever you are stuck.</p>
+            </div>
+
+            <div class="reason-card">
+              <div class="reason-num">03 / ACTIVE SYNTAX</div>
+              <h4 class="reason-title">Interactive Sandboxes</h4>
+              <p class="reason-desc">Write, test, and verify real C and Java snippets right inside the browser terminal with instant runtime feedback.</p>
+            </div>
+
+            <div class="reason-card">
+              <div class="reason-num">04 / ZERO-TO-HERO</div>
+              <h4 class="reason-title">System-Level Foundations</h4>
+              <p class="reason-desc">From low-level memory pointers in C to enterprise OOP patterns in Java, master both machine control and scalable architectures.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer Navigation Links -->
+        <div class="footer-nav-grid">
+          <div>
+            <div class="quest-logo-container" style="pointer-events: none;">
+              <div class="quest-logo-badge">
+                <svg class="quest-logo-icon" viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 20 7 20 17 12 22 4 17 4 7" stroke="url(#logoGradient)"/>
+                  <circle cx="12" cy="12" r="3.5" fill="url(#logoGradient)" stroke="none"/>
+                  <path d="M14.5 14.5 L19 19" stroke="url(#logoGradient)" stroke-width="2.5"/>
+                </svg>
+              </div>
+              <div class="quest-brand-text">
+                <span class="quest-brand-title">Quest</span>
+                <span class="quest-brand-sub">AI Learning Matrix</span>
+              </div>
+            </div>
+            <p class="footer-col-desc">
+              An intelligent, gamified learning sanctuary accelerating software engineering education with AI tutoring and progressive module challenges.
+            </p>
+          </div>
+
+          <div>
+            <h4 class="footer-heading">Learning Tracks</h4>
+            <ul class="footer-links-list">
+              <li><a href="{% if user.is_authenticated %}{% url 'course_quest_map' 'c' %}{% else %}{% url 'login' %}{% endif %}" class="footer-link">C Systems Programming</a></li>
+              <li><a href="{% if user.is_authenticated %}{% url 'course_quest_map' 'java' %}{% else %}{% url 'login' %}{% endif %}" class="footer-link">Java Enterprise & OOP</a></li>
+              <li><a href="#courses" class="footer-link">Python & AI (Upcoming)</a></li>
+              <li><a href="{% if user.is_authenticated %}{% url 'home' %}#about{% else %}{% url 'login' %}{% endif %}" class="footer-link">Pedagogy & Roadmap</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="footer-heading">Platform</h4>
+            <ul class="footer-links-list">
+              <li><a href="{% if user.is_authenticated %}{% url 'home' %}#about{% else %}{% url 'login' %}{% endif %}" class="footer-link">About the Matrix</a></li>
+              <li><a href="{% if user.is_authenticated %}{% url 'profile' %}{% else %}{% url 'login' %}{% endif %}" class="footer-link">Developer Profile & Badges</a></li>
+              <li><a href="#" class="footer-link">Quest AI Knowledge Base</a></li>
+              <li><a href="#" class="footer-link">Community Leaderboard</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="footer-heading">Developer Core</h4>
+            <ul class="footer-links-list">
+              <li><a href="#" class="footer-link">System Documentation</a></li>
+              <li><a href="#" class="footer-link">Compiler Pipeline Specs</a></li>
+              <li><a href="#" class="footer-link">Security & Sandbox</a></li>
+              <li><a href="#" class="footer-link">Release Notes v2.4</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="footer-bottom-bar">
+          <div>
+            &copy; 2026 Quest AI Learning Matrix. Built with Python, Django, SQLite, HTML5 & Modern CSS.
+          </div>
+          <div class="live-status-pill">
+            <span class="status-dot"></span>
+            <span>All AI Learning Nodes Operational</span>
+          </div>
+        </div>
+
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Global Level Complete Celebration Modal -->
+  <div id="celebrationModal" class="modal-overlay">
+    <div class="modal-dialog">
+      <div class="modal-trophy-icon">🏆</div>
+      <h3 id="modalLevelTitle" class="modal-title">Level Cleared!</h3>
+      <p id="modalXpEarned" style="font-family: var(--font-mono); color: var(--accent-amber); font-weight: 700; font-size: 1.15rem; margin-bottom: 0.5rem;">+100 XP Earned</p>
+      <p id="modalNewRank" style="color: var(--accent-cyan); font-size: 0.95rem; margin-bottom: 1.5rem;">Rank Tier Updated</p>
+      <p class="modal-p">Fantastic work! The next module has unlocked on your gamified quest pathway. Continue your ascent to Grandmaster!</p>
+      <div style="display: flex; gap: 1rem; justify-content: center;">
+        <a id="modalNextLevelBtn" href="#" class="btn btn-primary" style="padding: 0.8rem 1.6rem;">Proceed to Next Level ➔</a>
+        <button type="button" onclick="closeCelebrationModal()" class="btn btn-outline" style="padding: 0.8rem 1.25rem;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core Scripts -->
+  <script src="{% static 'js/background.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+  {% block extra_scripts %}{% endblock %}
+
+</body>
+</html>

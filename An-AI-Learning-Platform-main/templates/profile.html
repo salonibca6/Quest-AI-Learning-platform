@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Developer Profile | Quest AI Learning Matrix{% endblock %}
+
+{% block content %}
+<div class="container" style="padding: 3rem 1.5rem 5rem;">
+
+  <!-- Profile Header Card -->
+  <div style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(20, 35, 65, 0.9)); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 2.5rem; margin-bottom: 2.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 2rem;">
+    <div style="display: flex; align-items: center; gap: 1.5rem;">
+      <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #00f2fe, #a855f7); display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 800; color: #070b14; box-shadow: var(--glow-cyan);">
+        {{ user.username|slice:":1"|upper }}
+      </div>
+      <div>
+        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.25rem;">
+          <h1 style="font-family: var(--font-heading); font-size: 2.2rem; font-weight: 800; color: #ffffff; margin: 0;">
+            {{ user.username }}
+          </h1>
+          <span class="hero-pill-badge" style="margin: 0; padding: 0.25rem 0.75rem;">
+            Tier {{ user_rank_tier }} &bull; {{ user_rank_title }}
+          </span>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;">
+          <i class="fa-solid fa-envelope"></i> {{ user.email }} &bull; Active Coder on Quest Matrix
+        </p>
+      </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div style="display: flex; gap: 2.5rem;">
+      <div style="text-align: center;">
+        <div style="font-family: var(--font-heading); font-size: 2rem; font-weight: 800; color: var(--accent-amber);">
+          {{ profile.xp }}
+        </div>
+        <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Total XP</div>
+      </div>
+      <div style="text-align: center;">
+        <div style="font-family: var(--font-heading); font-size: 2rem; font-weight: 800; color: var(--accent-cyan);">
+          {{ total_completed }}
+        </div>
+        <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Completed Modules</div>
+      </div>
+      <div style="text-align: center;">
+        <div style="font-family: var(--font-heading); font-size: 2rem; font-weight: 800; color: var(--accent-emerald);">
+          {{ profile.streak }} 🔥
+        </div>
+        <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Day Streak</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Track Progress Overview -->
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem;">
+    <!-- C Track Progress -->
+    <div style="background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 2rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+        <h3 style="font-family: var(--font-heading); font-size: 1.3rem; color: #ffffff; display: flex; align-items: center; gap: 0.5rem; margin: 0;">
+          <i class="fa-solid fa-terminal" style="color: var(--accent-cyan);"></i> C Systems Track
+        </h3>
+        <span style="font-family: var(--font-mono); color: var(--accent-cyan); font-weight: 700;">{{ c_count }}/{{ c_total }} Levels</span>
+      </div>
+      <div class="progress-track" style="height: 8px; margin-bottom: 1.25rem;">
+        <div class="progress-fill" style="width: {% widthratio c_count c_total 100 %}%;"></div>
+      </div>
+      <a href="{% url 'course_quest_map' 'c' %}" class="btn btn-outline" style="width: 100%; font-size: 0.9rem;">
+        Continue C Quest ➔
+      </a>
+    </div>
+
+    <!-- Java Track Progress -->
+    <div style="background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 2rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+        <h3 style="font-family: var(--font-heading); font-size: 1.3rem; color: #ffffff; display: flex; align-items: center; gap: 0.5rem; margin: 0;">
+          <i class="fa-brands fa-java" style="color: var(--accent-amber);"></i> Java Enterprise Track
+        </h3>
+        <span style="font-family: var(--font-mono); color: var(--accent-amber); font-weight: 700;">{{ java_count }}/{{ java_total }} Levels</span>
+      </div>
+      <div class="progress-track" style="height: 8px; margin-bottom: 1.25rem;">
+        <div class="progress-fill" style="width: {% widthratio java_count java_total 100 %}%; background: linear-gradient(90deg, #f59e0b, #ec4899);"></div>
+      </div>
+      <a href="{% url 'course_quest_map' 'java' %}" class="btn btn-outline" style="width: 100%; font-size: 0.9rem;">
+        Continue Java Quest ➔
+      </a>
+    </div>
+  </div>
+
+  <!-- Conquered Modules History -->
+  <div style="background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 2.25rem;">
+    <h3 style="font-family: var(--font-heading); font-size: 1.4rem; color: #ffffff; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.6rem;">
+      <i class="fa-solid fa-scroll" style="color: var(--accent-purple);"></i> Conquered Modules History
+    </h3>
+
+    {% if progress_records %}
+      <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+        {% for pr in progress_records %}
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.25rem; background: rgba(10, 16, 28, 0.7); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm);">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <span style="color: var(--accent-emerald); font-size: 1.2rem;"><i class="fa-solid fa-circle-check"></i></span>
+              <div>
+                <span style="font-weight: 700; color: #ffffff; display: block; font-size: 1rem;">
+                  {{ pr.level_module.course.name }} &bull; Level {{ pr.level_module.level_number }}: {{ pr.level_module.title }}
+                </span>
+                <span style="font-size: 0.8rem; color: var(--text-dim); font-family: var(--font-mono);">
+                  Conquered on {{ pr.completed_at|date:"M d, Y H:i" }} &bull; +{{ pr.level_module.xp_reward }} XP Earned
+                </span>
+              </div>
+            </div>
+            <a href="{% url 'level_detail' pr.level_module.course.slug pr.level_module.level_number %}" class="btn btn-outline" style="padding: 0.4rem 0.85rem; font-size: 0.82rem;">
+              Review Module
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div style="text-align: center; padding: 3rem 1rem; color: var(--text-muted);">
+        <div style="font-size: 2.5rem; margin-bottom: 0.75rem; color: var(--text-dim);"><i class="fa-solid fa-compass"></i></div>
+        <p style="font-size: 1.1rem; margin-bottom: 1rem;">No modules conquered yet. Your journey is waiting!</p>
+        <a href="{% url 'home' %}#courses" class="btn btn-primary" style="padding: 0.7rem 1.5rem;">
+          Start Level 1 in C or Java ➔
+        </a>
+      </div>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}
